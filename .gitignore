@@ -1,0 +1,8 @@
+*.inp_parcs_err
+*.parcs_dep
+*.parcs_dpl
+*.parcs_msg
+*.parcs_out
+*.parcs_rod
+*.parcs_sum
+*.parcs_xml

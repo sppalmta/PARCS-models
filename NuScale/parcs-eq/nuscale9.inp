@@ -1,0 +1,123 @@
+! NuScale US460 Model
+! August 2025
+! *** Initial Model - use with caution ***
+!
+! US460 Standard Design Approval
+! https://www.nrc.gov/docs/ML2509/ML25099A236.html
+!
+! This set of inputs is used to generate the equilibrium cycle.
+! Cycle 9 should be considered the equilibrium cycle
+!
+!******************************************************************************
+CASEID nuscale9                           Draft 1
+!******************************************************************************
+CNTL
+      core_type        pwr
+      core_power       100.0    ! power in %
+!
+      ppm              1200.0   ! beginning guess at BOC
+      search           ppm      ! perform a boron concentration search
+!                         A     B     C     D     S     !
+      bank_pos         100.0 100.0 100.0  100.0 100.0   ! nuscale pulled D bank rod
+!                    *** control rod banks are defined to have 100 steps total.  100 is fully withdrawn
+!
+      mult_cyc         T       ! include this if MCYLE included below
+      depletion        T  1.0E-5 F
+
+!                        *** copy the following input from top of PMAXS files, no der or edd
+!                     !  scratch  adf xes ded j1f chi chd inv det yld cdf gff bet lam dec zdf
+      tree_xs          T    0      T   T   F   F   T   F   T   T   T   T   T   T   T   F   F  
+
+      th_fdbk          T
+      int_th           T -1  ! internal T/H solver
+      xe_sm            1  1  ! equilibrium xenon and samarium
+!
+      pin_power        T     ! **** turns on pin power reconstruction
+!
+      inp_opts       F  T
+      run_opts       F  F  F
+!
+!!                    input      iteration  planar                adj
+!!                    edit       table      power      pin        reac
+!      print_opt      T          T          F          F          F
+!!                    fdbk       flux       planar
+!!                    rho        precurs    flux       Xe         T/H
+!      print_opt      F          F          F          F          F
+!******************************************************************************
+PARAM
+      n_iters_ss     5  50
+      nlupd_ss       4  2  1
+      conv_ss        1.0e-6 5.0e-6 1.0e-5
+      cnv_th_ss      0.001
+!      wielandt       5.0  10.0  1.0
+!      lsolver        1 1 20
+!      cmfd           2
+!******************************************************************************
+GEOM
+       file 'nuscale_geom.inc'
+
+   ! assembly pitch=21.504 cm
+
+      grid_x         9*21.504
+      neutmesh_x     9*1        ! flag for 1x1
+      grid_y         9*21.504
+      neutmesh_y     9*1        ! flag for 1x1
+      grid_z         1*15.0 20*10.0 1*15.0
+      boun_cond      2 2 2 2 2 2      ! ibcw,ibce,ibcn,ibcs,ibcb,ibct
+      cr_axinfo      10.0 2.0 100     ! crd position all in, step size, max number of steps
+      bank_conf
+            0  0  0  0  0
+         0  0  0  2  0  0  0   
+      0  0  0  4  0  3  0  0  0
+      0  0  3  0  5  0  4  0  0
+      0  2  0  5  0  5  0  2  0
+      0  0  4  0  5  0  3  0  0
+      0  0  0  3  0  4  0  0  0
+         0  0  0  2  0  0  0   
+            0  0  0  0  0      
+
+    ! Define bank types.  Assume they are all the same.
+      crb_type       1 1 1 1 1
+!                    A B C D S
+
+      pincal_loc
+              0  0  0  0  0
+           0  0  1  1  1  0  0  
+        0  0  1  1  1  1  1  0  0
+        0  1  1  1  1  1  1  1  0
+        0  1  1  1  1  1  1  1  0
+        0  1  1  1  1  1  1  1  0
+        0  0  1  1  1  1  1  0  0
+           0  0  1  1  1  0  0 
+              0  0  0  0  0  
+!
+!******************************************************************************
+FDBK
+  ! *** nuscale, it looks like you set the power per assembly... not the total power.
+      fa_powpit      6.7568   21.504            !assembly power(Mw) and pitch(cm)
+      cdc_ded        0  1
+      gamma_frac     0.019                      !direc heating fraction
+      refl_th  1
+        22*0.812       ! reflector density by axial location, set equal to inlet density
+!******************************************************************************
+TH
+      n_pingt        264 25                     !npin,ngt
+      pin_dim        4.096  4.750  0.57   6.02  !pin radii, rs,rw,tw, and rgt in mm   ***  todo: confirm dimensions
+      flow_cond      249.44 18.333              !tin,cmfrfa(Kg/sec)
+!      gamma_frac     0.019                     !direc heating fraction
+      hgap           60000.0                    !hgap(w/m^2-C)               large number for gap closure?
+      n_ring         10                         !number of meshes in pellet
+  ! note: pressure is hardwired to 2250 psi in the parcs PWR models.  It cannot be changed.
+!******************************************************************************
+DEPL
+!
+      inp_hst  'nuscale8.parcs_cyc-01' 1 20      ! 1=text format,  restart point *****
+      inp_opt   F  F  F  F   ! flag to read boron, CR position,TH para,Xe from the history file.
+      file 'nuscale_pmax.inc'
+
+!****************************************************************************************
+MCYCLE
+      file 'nuscale_mcycle.inc'
+!***********************************************************************
+!  the next little dot is important
+.
