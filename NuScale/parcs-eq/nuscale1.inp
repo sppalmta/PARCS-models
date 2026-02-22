@@ -24,8 +24,6 @@ CNTL
       depletion        T  1.0E-5 F
 
 !                        *** copy the following input from top of PMAXS files, no der or edd
-!bad                     scratch  der adf xes ded j1f chi chd inv det yld cdf gff bet lam dec zdf edd
-!bad  tree_xs          T    0      T   T   T   F   F   T   F   T   T   T   T   T   T   T   F   F   F
 !                     !  scratch  adf xes ded j1f chi chd inv det yld cdf gff bet lam dec zdf
       tree_xs          T    0      T   T   F   F   T   F   T   T   T   T   T   T   T   F   F  
 
@@ -38,12 +36,6 @@ CNTL
       inp_opts       F  T
       run_opts       F  F  F
 !
-!!                    input      iteration  planar                adj
-!!                    edit       table      power      pin        reac
-!      print_opt      T          T          F          F          F
-!!                    fdbk       flux       planar
-!!                    rho        precurs    flux       Xe         T/H
-!      print_opt      F          F          F          F          F
 !******************************************************************************
 PARAM
       n_iters_ss     5  50
