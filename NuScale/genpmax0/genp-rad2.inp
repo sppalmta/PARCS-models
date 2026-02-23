@@ -5,7 +5,7 @@
 !  December 2024
 ! ------------------------------------------------
 %JOB_TIT
- 'wb-refl_rad2_edge.PMAX' T 3.31
+ 'wb-refl_rad2_edge.pmax' T 3.31
 %JOB_OPT
   T   F   F   F   F   F   T   F   F   F   F   F   F   F   F
  !adf,xes,ded,j1f,chi,chd,inv,det,yld,cdf,gff,bet,lam,dec,zdf
@@ -29,7 +29,7 @@
          0
   'CR0-MDC-MPC' 4*1
 %FIL_CNT
-  T 'pol-rad2.t16' 4 0
+  T '../polaris/polaris_wb_rad2.t16' 4 0
     1 1 1 1 1
     2 1 2 1 1
     3 1 3 1 1

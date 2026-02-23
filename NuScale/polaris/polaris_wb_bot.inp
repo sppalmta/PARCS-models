@@ -1,0 +1,140 @@
+=polaris
+% ------------------------------------------------
+%  ORNL/TM-2023/2981
+%  Benchmark Calculation for the Watts Bar Unit 1 Cycles 1-3
+%  Using the SCALE 6.3/Polaris-PARCS v3.4.2 Code Package
+%  December 2024
+% ------------------------------------------------
+%    general options
+% ------------------------------------------------
+title "WEC 17x17 spacer_000/2.1-CR0-MDC-MPC-MTF lattice"
+lib "broad_lwr"
+opt PRINT XFile16=true
+system PWR
+% ------------------------------------------------
+%    geometry
+% ------------------------------------------------
+geom W17 : ASSM 17 1.26 FULL
+hgap 0.04
+% ------------------------------------------------
+%    compositions and materials
+% ------------------------------------------------
+comp c_uox : UOX 2.11
+mat FUEL.1 : c_uox 10.257
+% ------------------------------------------------
+%    pins definitions
+% ------------------------------------------------
+pin F : 0.4096 0.418 0.475
+      : FUEL.1 GAP CLAD
+pin I : 0.559 0.605
+      : COOL.1 TUBE COOL.1
+pin G : 0.561 0.602
+      : COOL.1 TUBE COOL.1
+mesh GAP  : ns=1
+mesh FUEL : nr=4
+shield ALL=N FUEL=P
+% ------------------------------------------------
+%    maps
+% ------------------------------------------------
+pinmap
+  I
+  F F
+  F F F
+  G F F G
+  F F F F F
+  F F F F F G
+  G F F G F F F
+  F F F F F F F F
+  F F F F F F F F F
+% ------------------------------------------------
+%    reflector
+% ------------------------------------------------
+geom bot_refl_lpc : REFL 16.951
+geom bot_refl_mpc : REFL 16.951
+geom bot_refl_hpc : REFL 16.951
+geom bot_refl_mdc : REFL 16.951
+slab bot_refl_lpc : 5.898 6.053 5.000
+                  : BOT_GAP.1 BOT_NOZ.1 BOT_CP.1
+                  : 9 9 8
+                  : 34 34 34
+slab bot_refl_mpc : 5.898 6.053 5.000
+                  : BOT_GAP.2 BOT_NOZ.2 BOT_CP.2
+                  : 9 9 8
+                  : 34 34 34
+slab bot_refl_hpc : 5.898 6.053 5.000
+                  : BOT_GAP.3 BOT_NOZ.3 BOT_CP.3
+                  : 9 9 8
+                  : 34 34 34
+slab bot_refl_mdc : 5.898 6.053 5.000
+                  : BOT_GAP.4 BOT_NOZ.4 BOT_CP.4
+                  : 9 9 8
+                  : 34 34 34
+
+mat BOT_GAP.1 : c_bot_gap_lpc 1.82
+mat BOT_NOZ.1 : c_bot_noz_lpc 2.79
+mat BOT_CP.1  : c_bot_cp_lpc 4.35
+
+mat BOT_GAP.2 : c_bot_gap_mpc 1.82
+mat BOT_NOZ.2 : c_bot_noz_mpc 2.79
+mat BOT_CP.2  : c_bot_cp_mpc 4.35
+
+mat BOT_GAP.3 : c_bot_gap_hpc 1.82
+mat BOT_NOZ.3 : c_bot_noz_hpc 2.79
+mat BOT_CP.3  : c_bot_cp_hpc 4.35
+
+mat BOT_GAP.4 : c_bot_gap_mdc 1.76
+mat BOT_NOZ.4 : c_bot_noz_mdc 2.74
+mat BOT_CP.4  : c_bot_cp_mdc 4.32
+
+comp c_cool_lpc : LW 0
+comp c_bot_gap_lpc : WT ZIRC4=44 INC718=21 c_cool_lpc=-100
+comp c_bot_noz_lpc : WT SS304=80 c_cool_lpc=-100
+comp c_bot_cp_lpc : WT SS304=91 c_cool_lpc=-100
+
+comp c_cool_mpc : LW 600
+comp c_bot_gap_mpc : WT ZIRC4=44 INC718=21 c_cool_mpc=-100
+comp c_bot_noz_mpc : WT SS304=80 c_cool_mpc=-100
+comp c_bot_cp_mpc : WT SS304=91 c_cool_mpc=-100
+
+comp c_cool_hpc : LW 1800
+comp c_bot_gap_hpc : WT ZIRC4=44 INC718=21 c_cool_hpc=-100
+comp c_bot_noz_hpc : WT SS304=80 c_cool_hpc=-100
+comp c_bot_cp_hpc : WT SS304=91 c_cool_hpc=-100
+
+comp c_cool_mdc : LW 600
+comp c_bot_gap_mdc : WT ZIRC4=46 INC718=21 c_cool_mdc=-100
+comp c_bot_noz_mdc : WT SS304=82 c_cool_mdc=-100
+comp c_bot_cp_mdc : WT SS304=92 c_cool_mdc=-100
+
+opt ESSM RaySpacing=0.045
+opt KEFF RaySpacing=.066
+% ------------------------------------------------
+%    states
+% ------------------------------------------------
+state ALL : temp=550
+     FUEL : temp=800
+     COOL : dens=0.76971 boron=600
+     bot_refl_mpc : in=yes
+     bot_refl_lpc : in=no
+     bot_refl_hpc : in=no
+     bot_refl_mdc : in=no
+read branch
+  add         COOL : boron=0
+      bot_refl_mpc : in=no
+      bot_refl_lpc : in=yes
+      bot_refl_hpc : in=no
+      bot_refl_mdc : in=no
+  add         COOL : boron=1800
+      bot_refl_mpc : in=no
+      bot_refl_lpc : in=no
+      bot_refl_hpc : in=yes
+      bot_refl_mdc : in=no
+  add          ALL : temp=585
+              FUEL : temp=800
+              COOL : boron=600 dens=0.70045
+      bot_refl_mpc : in=no
+      bot_refl_lpc : in=no
+      bot_refl_hpc : in=no
+      bot_refl_mdc : in=yes
+end branch
+end

@@ -1,0 +1,164 @@
+=polaris
+% ------------------------------------------------
+%  ORNL/TM-2023/2981
+%  Benchmark Calculation for the Watts Bar Unit 1 Cycles 1-3
+%  Using the SCALE 6.3/Polaris-PARCS v3.4.2 Code Package
+%  December 2024
+% ------------------------------------------------
+%    general options
+% ------------------------------------------------
+title "WEC 17x17 spacer_000/2.1-CR0-MDC-MPC-MTF lattice"
+lib "broad_lwr"
+opt PRINT XFile16=true
+system PWR
+% ------------------------------------------------
+%    geometry
+% ------------------------------------------------
+geom W17 : ASSM 17 1.26 FULL
+hgap 0.04
+% ------------------------------------------------
+%    compositions and materials
+% ------------------------------------------------
+comp c_uox : UOX 2.11
+mat FUEL.1 : c_uox 10.257
+% ------------------------------------------------
+%    pins definitions
+% ------------------------------------------------
+pin F : 0.4096 0.418 0.475
+      : FUEL.1 GAP CLAD
+pin I : 0.559 0.605
+      : COOL.1 TUBE COOL.1
+pin G : 0.561 0.602
+      : COOL.1 TUBE COOL.1
+mesh GAP  : ns=1
+mesh FUEL : nr=4
+shield ALL=N FUEL=P
+% ------------------------------------------------
+%    maps
+% ------------------------------------------------
+pinmap
+   I
+   F F
+   F F F
+   G F F G
+   F F F F F
+   F F F F F G
+   G F F G F F F
+   F F F F F F F F
+   F F F F F F F F F
+% ------------------------------------------------
+%    reflector
+% ------------------------------------------------
+geom top_refl_lpc : REFL 36.226
+geom top_refl_mpc : REFL 36.226
+geom top_refl_hpc : REFL 36.226
+geom top_refl_mdc : REFL 36.226
+slab top_refl_lpc : 8.556 3.866 3.578 1.67 2.129 8.827 7.6
+                  : PLE.1 PLE_GRID.1 PLE.1 PLUG.1 NOZ_GAP.1 TOP_NOZ.1 TOP_CP.1
+                  : 14 6 6 3 3 14 12
+                  : 34 34 34 34 34 34 34
+slab top_refl_mpc : 8.556 3.866 3.578 1.67 2.129 8.827 7.6
+                  : PLE.2 PLE_GRID.2 PLE.2 PLUG.2 NOZ_GAP.2 TOP_NOZ.2 TOP_CP.2
+                  : 14 6 6 3 3 14 12
+                  : 34 34 34 34 34 34 34
+slab top_refl_hpc : 8.556 3.866 3.578 1.67 2.129 8.827 7.6
+                  : PLE.3 PLE_GRID.3 PLE.3 PLUG.3 NOZ_GAP.3 TOP_NOZ.3 TOP_CP.3
+                  : 14 6 6 3 3 14 12
+                  : 34 34 34 34 34 34 34
+slab top_refl_mdc : 8.556 3.866 3.578 1.67 2.129 8.827 7.6
+                  : PLE.4 PLE_GRID.4 PLE.4 PLUG.4 NOZ_GAP.4 TOP_NOZ.4 TOP_CP.4
+                  : 14 6 6 3 3 14 12
+                  : 34 34 34 34 34 34 34
+
+mat PLE.1 : c_ple_lpc 2.25
+mat PLE_GRID.1 : c_ple_grid_lpc 2.78
+mat PLUG.1 : c_plug_lpc 3.07
+mat NOZ_GAP.1 : c_noz_gap_lpc 0.66
+mat TOP_NOZ.1 : c_top_noz_lpc 2.02
+mat TOP_CP.1 : c_top_cp_lpc 4.27
+
+mat PLE.2 : c_ple_mpc 2.25
+mat PLE_GRID.2 : c_ple_grid_mpc 2.78
+mat PLUG.2 : c_plug_mpc 3.07
+mat NOZ_GAP.2 : c_noz_gap_mpc 0.66
+mat TOP_NOZ.2 : c_top_noz_mpc 2.02
+mat TOP_CP.2 : c_top_cp_mpc 4.27
+
+mat PLE.3 : c_ple_hpc 2.25
+mat PLE_GRID.3 : c_ple_grid_hpc 2.78
+mat PLUG.3 : c_plug_hpc 3.07
+mat NOZ_GAP.3 : c_noz_gap_hpc 0.66
+mat TOP_NOZ.3 : c_top_noz_hpc 2.02
+mat TOP_CP.3 : c_top_cp_hpc 4.27
+
+mat PLE.4 : c_ple_mdc 2.31
+mat PLE_GRID.4 : c_ple_grid_mdc 2.83
+mat PLUG.4 : c_plug_mdc 3.12
+mat NOZ_GAP.4 : c_noz_gap_mdc 0.75
+mat TOP_NOZ.4 : c_top_noz_mdc 2.10
+mat TOP_CP.4 : c_top_cp_mdc 4.32
+
+comp c_cool_lpc : LW 0
+comp c_ple_lpc : WT ZIRC4=29 SS304=55 c_cool_lpc=-100
+comp c_ple_grid_lpc : WT ZIRC4=23 SS304=45 INC718=20 c_cool_lpc=-100
+comp c_plug_lpc : WT ZIRC4=88 c_cool_lpc=-100
+comp c_noz_gap_lpc : WT ZIRC4=8 c_cool_lpc=-100
+comp c_top_noz_lpc : WT SS304=76 c_cool_lpc=-100
+comp c_top_cp_lpc : WT SS304=93 c_cool_lpc=-100
+
+comp c_cool_mpc : LW 600
+comp c_ple_mpc : WT ZIRC4=29 SS304=55 c_cool_mpc=-100
+comp c_ple_grid_mpc : WT ZIRC4=23 SS304=45 INC718=20 c_cool_mpc=-100
+comp c_plug_mpc : WT ZIRC4=88 c_cool_mpc=-100
+comp c_noz_gap_mpc : WT ZIRC4=8 c_cool_mpc=-100
+comp c_top_noz_mpc : WT SS304=76 c_cool_mpc=-100
+comp c_top_cp_mpc : WT SS304=93 c_cool_mpc=-100
+
+comp c_cool_hpc : LW 1800
+comp c_ple_hpc : WT ZIRC4=29 SS304=55 c_cool_hpc=-100
+comp c_ple_grid_hpc : WT ZIRC4=23 SS304=45 INC718=20 c_cool_hpc=-100
+comp c_plug_hpc : WT ZIRC4=88 c_cool_hpc=-100
+comp c_noz_gap_hpc : WT ZIRC4=8 c_cool_hpc=-100
+comp c_top_noz_hpc : WT SS304=76 c_cool_hpc=-100
+comp c_top_cp_hpc : WT SS304=93 c_cool_hpc=-100
+
+comp c_cool_mdc : LW 600
+comp c_ple_mdc : WT ZIRC4=28 SS304=54 c_cool_mdc=-100
+comp c_ple_grid_mdc : WT ZIRC4=23 SS304=44 INC718=20 c_cool_mdc=-100
+comp c_plug_mdc : WT ZIRC4=87 c_cool_mdc=-100
+comp c_noz_gap_mdc : WT ZIRC4=7 c_cool_mdc=-100
+comp c_top_noz_mdc : WT SS304=73 c_cool_mdc=-100
+comp c_top_cp_mdc  : WT SS304=92 c_cool_mdc=-100
+
+opt ESSM RaySpacing=0.0425
+opt KEFF RaySpacing=0.046
+% ------------------------------------------------
+%    states
+% ------------------------------------------------
+state ALL : temp=615
+     FUEL : temp=800
+     COOL : dens=0.60811 boron=600
+     top_refl_mpc : in=yes
+     top_refl_lpc : in=no
+     top_refl_hpc : in=no
+     top_refl_mdc : in=no
+read branch
+  add        COOL : boron=0
+     top_refl_mpc : in=no
+     top_refl_lpc : in=yes
+     top_refl_hpc : in=no
+     top_refl_mdc : in=no
+  add        COOL : boron=1800
+     top_refl_mpc : in=no
+     top_refl_lpc : in=no
+     top_refl_hpc : in=yes
+     top_refl_mdc : in=no
+  add         ALL : temp=585
+             FUEL : temp=800
+             COOL : boron=600 dens=0.70045
+     top_refl_mpc : in=no
+     top_refl_lpc : in=no
+     top_refl_hpc : in=no
+     top_refl_mdc : in=yes
+end branch
+end

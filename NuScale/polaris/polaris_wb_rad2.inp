@@ -1,0 +1,55 @@
+=polaris
+% ------------------------------------------------
+%  ORNL/TM-2023/2981
+%  Benchmark Calculation for the Watts Bar Unit 1 Cycles 1-3
+%  Using the SCALE 6.3/Polaris-PARCS v3.4.2 Code Package
+%  December 2024
+% ***** steel baffle greatly increased for NusCALE ****
+% ------------------------------------------------
+%    general options
+% ------------------------------------------------
+title "WEC 17x17 lattice"
+lib "broad_lwr"
+opt PRINT XFile16=true
+system PWR
+% ------------------------------------------------
+%    compositions and materials
+% ------------------------------------------------
+comp c_uox : UOX 3.1
+mat FUEL.1 : c_uox 10.257
+% ------------------------------------------------
+%    geometry
+% ------------------------------------------------
+geom W17 : ASSM 17 1.26
+hgap 0.04
+pin F : 0.4096 0.418 0.475 : FUEL.1 GAP CLAD
+pin I : 0.559 0.605 : COOL.1 TUBE
+pin G : 0.561 0.602 : COOL.1 TUBE
+mesh GAP : ns=1
+mesh FUEL : nr=4
+shield ALL=N FUEL=P
+pinmap
+  I
+  F F
+  F F F
+  G F F G
+  F F F F F
+  F F F F F G
+  G F F G F F F
+  F F F F F F F F
+  F F F F F F F F F
+geom rad_ref : REFL 21.5
+slab rad_ref : 0.19   5.85   15.46
+             : COOL.1 STRUCT COOL.1
+             : 1      8      21
+             : 34     34     34
+% ------------------------------------------------
+%    states
+% ------------------------------------------------
+state ALL : temp=550 FUEL : temp=800 COOL : dens=0.76971 boron=600 rad_ref : in=yes
+read branch
+  add COOL : boron=0
+  add COOL : boron=1800
+  add ALL : temp=585 FUEL : temp=800 COOL : boron=600 dens=0.70045
+end branch
+end
