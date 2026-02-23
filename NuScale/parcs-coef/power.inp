@@ -15,8 +15,8 @@ CNTL
       core_type        pwr
       core_power       100.0    ! power in %
 !
-      ppm              1200.0   ! beginning guess at BOC
-      search           ppm      ! perform a boron concentration search
+      ppm              1.4      ! **** set boron to EOC boron, can't mix keff and boron searches
+      search           keff     ! perform a boron concentration search
 !                         A     B     C     D     S     !
       bank_pos         100.0 100.0 100.0  100.0 100.0   ! nuscale pulled D bank rod
 !                    *** control rod banks are defined to have 100 steps total.  100 is fully withdrawn
@@ -82,7 +82,7 @@ GEOM
 
       pincal_loc
               0  0  0  0  0
-           0  0  1  1  1  0  0  
+           0  0  1  1  1  0  0 
         0  0  1  1  1  1  1  0  0
         0  1  1  1  1  1  1  1  0
         0  1  1  1  1  1  1  1  0
@@ -144,36 +144,64 @@ DEPL
 /
 !***********************************************************************
 !   Run multiple cases to get keff vs. power
+!   Very approximate inputs!!! Need to be updated
+!   Inlet temperature is a linear function between minimum temp and 100% value
+!   Flow is scaled linearly with power.  This is not very accurate.
 !***********************************************************************
 CNTL
+      core_power       100.0
+TH
+     flow_cond  249.44   18.333   !  100%
+/
+CNTL
       core_power       90.0
+TH
+     flow_cond  245.496  16.4997  !  90%
 /
 CNTL
       core_power       80.0
+TH
+     flow_cond  241.552  14.6664  !  80%
 /
 CNTL
       core_power       70.0
+TH
+     flow_cond  237.608  12.8331  !  70%
 /
 CNTL
       core_power       60.0
+TH
+     flow_cond  233.664  10.9998  !  60%
 /
 CNTL
       core_power       50.0
+TH
+     flow_cond  229.72    9.1665  !  50%
 /
 CNTL
       core_power       40.0
+TH
+     flow_cond  225.776   7.3332  !  40%
 /
 CNTL
       core_power       30.0
+TH
+     flow_cond  221.832   5.4999  !  30%
 /
 CNTL
       core_power       20.0
+TH
+     flow_cond  217.888   3.6666  !  20%
 /
 CNTL
       core_power       10.0
+TH
+     flow_cond  213.944   2.0     !  10% min flow
 /
 CNTL
       core_power       0.1
+TH
+     flow_cond  210       2.0     !  0%  min flow
 !***********************************************************************
 !  the next little dot is important
 .
