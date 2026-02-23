@@ -1,0 +1,92 @@
+=shell
+cp ${INPDIR}/branches.txt .
+end
+=polaris
+title 'Nuscale 2.65 Gad 0'
+
+lib "broad_lwr"
+
+system PWR
+
+% pin pitch = 1.26cm
+% assembly pitch = 21.504 cm
+% hgap = (21.504-17*1.26)/2 = 0.042 cm
+
+geom assembly: ASSM 17 1.26 sym=SE
+hgap 0.04
+
+% materials and compositions
+
+comp B0_UOX     : UOX 2.65 refdens=10.2
+comp B0_UOX_300 : UOX 3.00 refdens=10.2
+comp B0_UOX_300_G06 : WT Gd2O3=6.0 B0_UOX_300=-100
+
+mat CRA.1 : AIC   temp=575
+mat CRS.1 : SS304 temp=575
+
+% set densities and temperatures to average values todo:
+mat COOL.1 : WATER dens=0.75784 temp=575 : boron=600
+mat FUEL.1 : B0_UOX         temp=900     % main enrichment
+
+% spacer material todo:
+%comp ZIRCH : WT refdens=6.86 INC718=3.88 ZIRC4=-100
+comp ZIRCH : WT refdens=6.56 ZIRC4=-100
+mat CLAD.1 : ZIRCH temp=635.4
+
+
+deplete FUEL=true
+shield FUEL=R CNTL=R CRA=R
+
+% definition of pin types
+
+pin 1 : 0.4096 0.418  0.475
+      : FUEL.1 GAP    CLAD
+pin E : 0.561   0.602
+      : COOL.1  TUBE
+pin D : 0.559   0.605
+      : COOL.1  TUBE
+
+pinmap
+  D
+  1 1
+  1 1 1
+  E 1 1 E
+  1 1 1 1 1
+  1 1 1 1 1 E
+  E 1 1 E 1 1 1
+  1 1 1 1 1 1 1 1
+  1 1 1 1 1 1 1 1 1
+
+% define the RCCA (control rod) 
+
+% R is the full length AIC absorber
+PIN R : 0.498   0.505   0.559   0.632   0.673
+      : CRA     GAP     CRS     COOL.1  TUBE
+
+
+control  BankB : RODLET
+_
+_ _
+_ _ _
+R _ _ R
+_ _ _ _ _
+_ _ _ _ _ R
+R _ _ R _ _ _
+_ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+
+% set power, burnup, and branch cases
+< branches.txt
+
+% todo: see 2023 cases to define mesh and other
+% mesh GAP  : ns=1
+% mesh FUEL : nr=4
+% mesh COOL : nx=4 ny=4 nr=1
+% mesh GRID : nx=4 ny=4
+% shield ALL=N FUEL=P CNTL=P BP=P
+% opt KEFF RaySpacing=0.01
+
+opt PRINT XFile16=true
+
+end

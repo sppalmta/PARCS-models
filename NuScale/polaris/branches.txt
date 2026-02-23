@@ -1,0 +1,39 @@
+% Branches Revision 0
+
+% power density in W/g of uranium
+% calculated as rated power (250 MW) / heavy metal loading (13.979 MTU) (Core values)
+power 17.88323
+
+% define burnup steps (22 steps)
+bu 0.0 0.1 0.5 1.0 1.5 2.0 2.5 3.0 3.5 5.0 7.5 10.0 12.5 15.0 17.5 20.0 25.0 30.0 35.0 40.0 45.0 50.0
+
+% branch cases (8 branch cases)
+%  TF  555    900    1600      temperature fuel
+%  DC  0.6884 0.7578 0.8100    density coolant
+%  PC  0      600    1400      poison coolant (boron ppm)
+%  CR  out in                  control rod
+
+% coolant average temp 575 K
+
+% nominal case
+state BankB : in= no ALL : temp= 575 FUEL : temp= 900 COOL : dens=0.7578  boron= 600
+
+% branch cases to run
+read branch
+
+% fuel temp branches
+  add BankB : in= no ALL : temp= 575 FUEL : temp= 555 COOL : dens=0.7578  boron= 600
+  add BankB : in= no ALL : temp= 575 FUEL : temp=1600 COOL : dens=0.7578  boron= 600
+
+% coolant density branches
+  add BankB : in= no ALL : temp= 575 FUEL : temp= 900 COOL : dens=0.6884  boron= 600
+  add BankB : in= no ALL : temp= 575 FUEL : temp= 900 COOL : dens=0.8100  boron= 600
+
+% boron
+  add BankB : in= no ALL : temp= 575 FUEL : temp= 900 COOL : dens=0.7578  boron=   0
+  add BankB : in= no ALL : temp= 575 FUEL : temp= 900 COOL : dens=0.7578  boron=1400
+
+% control rod branch
+  add BankB : in=yes ALL : temp= 575 FUEL : temp= 900 COOL : dens=0.7578  boron= 600
+
+end branch
