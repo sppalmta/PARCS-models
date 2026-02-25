@@ -8,7 +8,7 @@ which can be found on the NRC website.
 
 This model is not meant to be exact, it is a representative model used to educate Nuclear Engineering students.
 
-** This is an initial model - use at your own risk **
+**This is an initial model - use at your own risk**
 
 ## Highlights
 
@@ -43,11 +43,11 @@ https://www.nrc.gov/docs/ML2509/ML25099A249.pdf
 
 ## Things left to investigate
 
-[ ] 1x1 vs 2x2
-[ ] Reflectors are approximate.  Use NuScale specific values.
-[ ] Do fuel temperatures need to be updated?
-[ ] Investigate case matrix. How important are history models?
-[ ] Investigate burnup steps for gad
-[ ] Investigate number of rings, etc. for gad
+- [ ] 1x1 vs 2x2
+- [ ] Reflectors are approximate.  Use NuScale specific values.
+- [ ] Do fuel temperatures need to be updated?
+- [ ] Investigate case matrix. How important are history models?
+- [ ] Investigate burnup steps for gad
+- [ ] Investigate number of rings, etc. for gad
 
 
