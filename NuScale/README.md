@@ -41,3 +41,13 @@ https://www.nrc.gov/docs/ML2509/ML25099A249.pdf
 * Figure 4.3-19: Boron Letdown Curve for Equilibrium Cycle
 
 
+## Things left to investigate
+
+[ ] 1x1 vs 2x2
+[ ] Reflectors are approximate.  Use NuScale specific values.
+[ ] Do fuel temperatures need to be updated?
+[ ] Investigate case matrix. How important are history models?
+[ ] Investigate burnup steps for gad
+[ ] Investigate number of rings, etc. for gad
+
+
