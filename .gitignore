@@ -6,3 +6,9 @@
 *.parcs_rod
 *.parcs_sum
 *.parcs_xml
+*.kinf
+*.msg
+*.out
+*.png
+*.pmax
+*.t16
